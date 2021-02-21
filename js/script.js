@@ -45,7 +45,7 @@ class UI {
     deleteFromBook(target){
         if(target.hasAttribute('href'))
         {
-            console.log(target);
+            target.parentElement.parentElement.remove();
         }
     }
 }
