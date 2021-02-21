@@ -1,5 +1,6 @@
 //Get UI Element
 let form = document.querySelector('#book-form');
+let booklist = document.querySelector('#book-list');
 
 
 
@@ -15,14 +16,13 @@ class Book {
 //UI Class
 class UI {
     addToBooklist(book) {
-        let list = document.querySelector('#book-list');
         let row = document.createElement('tr');
         row.innerHTML = `
         <td>${book.title}</td>
         <td>${book.author}</td>
         <td>${book.isbn}</td>
         <td><a href='#' class="delete">X</a></td>`;
-        list.appendChild(row);
+        booklist.appendChild(row);
         //console.log(row);
     }
 
@@ -42,10 +42,17 @@ class UI {
             document.querySelector('.alert').remove();
         }, 3000);
     }
+    deleteFromBook(target){
+        if(target.hasAttribute('href'))
+        {
+            console.log(target);
+        }
+    }
 }
 
 //Add event listener
 form.addEventListener('submit', newBook);
+booklist.addEventListener('click', removeBook);
 
 //Define function
 function newBook(e) {
@@ -64,5 +71,13 @@ function newBook(e) {
         ui.showAlert('Book Added Successfully!!', 'success');
     }
     //console.log(book);
+    e.preventDefault();
+}
+
+function removeBook(e) {
+    let ui = new UI();
+    ui.deleteFromBook(e.target);
+    ui.showAlert('Book Deleted!', 'success');
+    //console.log('button working');
     e.preventDefault();
 }
