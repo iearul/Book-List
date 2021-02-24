@@ -25,7 +25,6 @@ class UI {
         booklist.appendChild(row);
         //console.log(row);
     }
-
     static clearField() {
         document.querySelector('#title').value = '';
         document.querySelector('#author').value = '';
@@ -51,9 +50,38 @@ class UI {
     }
 }
 
+//Store class
+class Store{
+    static getBooks(){
+        let books;
+        if(localStorage.getItem('books') == null){
+            books=[];
+        }else{
+            books=JSON.parse(localStorage.getItem('books'));
+        }
+        return books;
+    }
+
+    static addBook(book){
+        let books = Store.getBooks();
+        books.push(book);
+
+        localStorage.setItem('books', JSON.stringify(books));
+    }
+
+    static displayBook(){
+        let books = this.getBooks();
+
+        books.forEach(book => {
+            UI.addToBooklist(book);
+        });
+    }
+}
 //Add event listener
 form.addEventListener('submit', newBook);
 booklist.addEventListener('click', removeBook);
+document.addEventListener('DOMContentLoaded', Store.displayBook());
+
 
 //Define function
 function newBook(e) {
@@ -71,6 +99,8 @@ function newBook(e) {
         UI.showAlert('Book Added Successfully!!', 'success');
     }
     //console.log(book);
+    Store.addBook(book);
+
     e.preventDefault();
 }
 
