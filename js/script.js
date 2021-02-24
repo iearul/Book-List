@@ -45,6 +45,9 @@ class UI {
         if(target.hasAttribute('href'))
         {
             target.parentElement.parentElement.remove();
+
+            Store.removeBook(target.parentElement.previousElementSibling.textContent.trim());
+
             UI.showAlert('Book Deleted!', 'success');
         }
     }
@@ -75,6 +78,19 @@ class Store{
         books.forEach(book => {
             UI.addToBooklist(book);
         });
+    }
+
+    static removeBook(isbn){
+        let books = Store.getBooks();
+
+        books.forEach((book, index) => {
+            if(book.isbn === isbn)
+            {
+                books.splice(index, 1);
+            }
+        })
+
+        localStorage.setItem('books', JSON.stringify(books));
     }
 }
 //Add event listener
